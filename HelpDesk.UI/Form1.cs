@@ -1,4 +1,4 @@
-using HelpDesk.BLL;
+﻿using HelpDesk.BLL;
 using HelpDesk.DAL;
 using HelpDesk.Model;
 using HelpDesk.DTO;
@@ -25,6 +25,7 @@ namespace HelpDesk.UI
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadDefaultValues();
+            SetupFilterComboBoxes();
             LoadTickets();
         }
 
@@ -173,5 +174,88 @@ namespace HelpDesk.UI
             chkConfirmDelete.Checked = false;
             LoadTickets();
         }
+
+        private void btnClearAll_Click(object sender, EventArgs e)
+        {
+            if (!chkConfirmDelete.Checked)
+                return;
+
+            var result = _ticketService.ClearAll();
+
+            if (!result.isOk)
+            {
+                MessageBox.Show(result.message);
+                return;
+            }
+
+            chkConfirmDelete.Checked = false;
+            LoadTickets();
+        }
+
+        private void cmbFilterCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbFilterStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnApplyFilter_Click(object sender, EventArgs e)
+        {
+            int? categoryId = null;
+            string? status = null;
+
+            
+            if (cmbFilterCategory.SelectedIndex > 0 && cmbFilterCategory.SelectedValue != null)
+                categoryId = Convert.ToInt32(cmbFilterCategory.SelectedValue);
+
+            
+            if (cmbFilterStatus.SelectedItem.ToString() != "All")
+                status = cmbFilterStatus.SelectedItem.ToString();
+
+            
+            var filteredTickets = _ticketService.GetAll(status, categoryId, null);
+
+            dgTickets.DataSource = filteredTickets;
+            dgTickets.ClearSelection();
+        }
+
+
+        private void btnResetFilter_Click(object sender, EventArgs e)
+        {
+            cmbFilterCategory.SelectedIndex = 0;
+            cmbFilterStatus.SelectedIndex = 0;
+
+            LoadTickets();
+            dgTickets.ClearSelection();
+        }
+
+
+        private void SetupFilterComboBoxes()
+        {
+            
+            var categories = _ticketCategoryRepository.GetAll();
+
+            var categoryList = new List<dynamic>
+    {
+        new { Id = 0, Name = "All" } 
+    };
+            categoryList.AddRange(categories.Select(c => new { c.Id, c.Name }));
+
+            cmbFilterCategory.DataSource = categoryList;
+            cmbFilterCategory.DisplayMember = "Name";
+            cmbFilterCategory.ValueMember = "Id";
+            cmbFilterCategory.SelectedIndex = 0;
+
+            
+            var statuses = new List<string> { "All", "New", "In-Progress", "Resolved", "Closed" };
+            cmbFilterStatus.DataSource = statuses;
+            cmbFilterStatus.SelectedIndex = 0;
+        }
+
+
     }
 }
+

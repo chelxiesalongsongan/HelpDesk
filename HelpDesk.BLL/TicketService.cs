@@ -133,5 +133,19 @@ namespace HelpDesk.BLL
                 return (false, $"Error deleting ticket: {ex.Message}");
             }
         }
+
+        public (bool isOk, string message) ClearAll()
+        {
+            try
+            {
+                _ticketRepository.DeleteAll();
+                return (true, "All tickets deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error deleting tickets: {ex.Message}");
+            }
+        }
+
     }
 }

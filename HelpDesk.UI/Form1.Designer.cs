@@ -296,6 +296,7 @@ namespace HelpDesk.UI
             btnClearAll.TabIndex = 16;
             btnClearAll.Text = "Clear All";
             btnClearAll.UseVisualStyleBackColor = true;
+            btnClearAll.Click += btnClearAll_Click;
             // 
             // btnDeleleteTicket
             // 
@@ -334,6 +335,7 @@ namespace HelpDesk.UI
             btnResetFilter.TabIndex = 5;
             btnResetFilter.Text = "Reset Filter";
             btnResetFilter.UseVisualStyleBackColor = true;
+            btnResetFilter.Click += btnResetFilter_Click;
             // 
             // btnApplyFilter
             // 
@@ -344,15 +346,18 @@ namespace HelpDesk.UI
             btnApplyFilter.TabIndex = 4;
             btnApplyFilter.Text = "Apply Filter";
             btnApplyFilter.UseVisualStyleBackColor = true;
+            btnApplyFilter.Click += btnApplyFilter_Click;
             // 
             // cmbFilterStatus
             // 
             cmbFilterStatus.FormattingEnabled = true;
+            cmbFilterStatus.Items.AddRange(new object[] { "New", "In-Progress ", "Resolved ", "Closed" });
             cmbFilterStatus.Location = new Point(141, 38);
             cmbFilterStatus.Margin = new Padding(2);
             cmbFilterStatus.Name = "cmbFilterStatus";
             cmbFilterStatus.Size = new Size(129, 23);
             cmbFilterStatus.TabIndex = 3;
+            cmbFilterStatus.SelectedIndexChanged += cmbFilterStatus_SelectedIndexChanged;
             // 
             // label10
             // 
@@ -367,11 +372,13 @@ namespace HelpDesk.UI
             // cmbFilterCategory
             // 
             cmbFilterCategory.FormattingEnabled = true;
+            cmbFilterCategory.Items.AddRange(new object[] { "Software", "Hardware", "Network", "Account Access", "Others" });
             cmbFilterCategory.Location = new Point(10, 38);
             cmbFilterCategory.Margin = new Padding(2);
             cmbFilterCategory.Name = "cmbFilterCategory";
             cmbFilterCategory.Size = new Size(129, 23);
             cmbFilterCategory.TabIndex = 1;
+            cmbFilterCategory.SelectedIndexChanged += cmbFilterCategory_SelectedIndexChanged;
             // 
             // label9
             // 

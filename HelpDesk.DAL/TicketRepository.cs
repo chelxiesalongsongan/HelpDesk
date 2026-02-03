@@ -59,6 +59,13 @@ namespace HelpDesk.DAL
             _context.SaveChanges();
         }
 
+
+        public void DeleteAll()
+        {
+            _context.Tickets.RemoveRange(_context.Tickets);
+            _context.SaveChanges();
+        }
+
         public int Save()
         {
             return _context.SaveChanges();
@@ -68,5 +75,7 @@ namespace HelpDesk.DAL
         {
             return _context.Tickets.FirstOrDefault(t => t.Id == id);
         }
+
+
     }
 }
